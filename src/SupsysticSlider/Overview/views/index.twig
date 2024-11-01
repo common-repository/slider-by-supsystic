@@ -1,0 +1,151 @@
+{% extends 'base.twig' %}
+
+{% block header %}
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        <a href="{{ environment.generateUrl('slider') }}">{{ translate('Slider by Supsystic') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('overview') }}">{{ translate('Overview') }}</a>
+    </nav>
+{% endblock %}
+{% block toolbar_wrap %}
+{% endblock %}
+{% block content %}
+    <div class="supsystic-overview">
+        <div class="full-page">
+          <div class="plugin-title"><img src="{{ SS_PLUGIN_URL }}/src/SupsysticSlider/Overview/assets/img/plugin-icon.png">Slider by Supsystic</div>
+          <div class="plugin-description">WordPress Slideshow plugin by Supsystic can make your site more attractive, because it allows you to create splendid slideshows from images and videos. Many professional templates and options are available in this plugin. You can easily make responsive slideshows without any special skills – all that you need for this is WordPress Slider Plugin by Supsystic.</div>
+        </div>
+        <div class="supsystic-overview-flex">
+        <div class="half-page half-page-left">
+            <div class="border-wrapper">
+              <ul>
+                <li class="overview-section-btn" data-section="video"><i class="fa fa-play"></i> Video tutorial</li>
+                <li class="overview-section-btn" data-section="settings"><i class="fa fa-cog"></i> Server Settings</li>
+                <li class="overview-section-btn" data-section="support"><i class="fa fa-life-ring"></i> Support</li>
+                <li class="overview-section-btn" data-section="promo_video"><i class="fa fa-star"></i> Our promo video</li>
+                <li class="overview-section-btn"><a target="_blank" title="Go to supsystic.com" href="https://supsystic.com/plugins/slider/?utm_source=plugin&utm_campaign=slider"> Plugin page on supsystic.com <sup><i class="fa fa-external-link"></i></sup></a></li>
+                <li class="overview-section-btn"><a target="_blank" title="Go to supsystic.com" href="https://supsystic.com/plugins/slider/?utm_source=plugin&utm_campaign=slider"> Compare FREE and PRO features <sup><i class="fa fa-external-link"></i></sup></a></li>
+                <li class="overview-section-btn"><a target="_blank" title="Go to supsystic.com" href="https://supsystic.com/all-plugins/?utm_source=plugin&utm_campaign=slider"> Check other supsystic FREE plugins <sup><i class="fa fa-external-link"></i></sup></a></li>
+              </ul>
+            </div>
+            <div class="border-wrapper">
+            <div class="overview-contact-form overview-section" data-section="support">
+                <h3><i class="fa fa-life-ring"></i> Support</h3>
+                <div class="contact-info-section">
+                  <p><i class="fa fa-clock-o" aria-hidden="true"></i> Our official support hours are 09:00 - 18:00 GMT+02:00, Monday to Friday – excluding bank holidays and other official holidays.</p>
+                  <p>The timescales listed below refer to these working hours.</p><br>
+                  <p><em>Support requests are prioritized based on the type of license:</em></p>
+                  <ul>
+                    <li><p><em>Pro Support</em> is reserved for customers with an active Pro license. We respond to new priority support requests within 12 hours.</p></li>
+                    <li><p><em>Standard Support</em> is provided to customers with an active Free license. We respond to standard support requests within 24h-48h.</p></li>
+                  </ul><br>
+                  <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> While we don’t guarantee that we will resolve the request in this time period, we will acknowledge it and communicate with the customer as appropriate to help resolve the issue.</p>
+                </div>
+                {% import '@overview/form.twig' as form %}
+                {{ form.open('post', environment.generateUrl('overview', 'sendMail'), { 'id': 'form-settings', 'style': 'max-width: 100%;', '_wpnonce': environment.getNonce() }) }}
+                <table class="contact-form-table" style="width: 100%;">
+                    <thead>
+                    {{ form.row(environment.translate('Name') ~ ' *',
+                        form.text('name', SS_USER_NAME, { 'required': '' })) }}
+
+                    {{ form.row(environment.translate('Email') ~ ' *',
+                        form.text('email', SS_USER_EMAIL, { 'required': '' })) }}
+
+                    {{ form.row(environment.translate('Website') ~ ' *',
+                        form.text('website', SS_WEBSITE, { 'required': '' })) }}
+
+                    {{ form.row(environment.translate('Subject') ~ ' *',
+                        form.text('subject', '', { 'required': '' })) }}
+                    <tr>
+                        <th scope="row">
+                            <label for="select-question">{{ environment.translate('Topic') }}</label>
+                        </th>
+                        <td>
+                            <select id="select-question" name="question">
+                                <option value="plugin_options">
+                                    {{ environment.translate('Plugin options') }}
+                                </option>
+                                <option value="bug">
+                                    {{ environment.translate('Report a bug') }}
+                                </option>
+                                <option value="functionallity">
+                                    {{ environment.translate('Require a new functionallity') }}
+                                </option>
+                                <option value="security_issue">
+                                    {{ environment.translate('Report about security issue (XSS/SQLi and others)') }}
+                                </option>
+                                <option value="other">
+                                    {{ environment.translate('Other') }}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="vertical-align: top;">
+                            <label for="mail-text">{{ environment.translate('Message') ~ ' *' }}</label>
+                        </th>
+                        <td>
+                            <textarea id="mail-text" name="message" cols="50" rows="3" placeholder="{{ environment.translate('Hello Supsystic Team!') }}" required=""></textarea>
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+                <button id="send-mail" type="submit" class="button button-primary button-hero">
+                    <i class="fa fa-check-square" aria-hidden="true"></i>
+                    Send email
+                </button>
+                <div class="required-notification" style="color: red; float: left;" hidden>Fields with * are required to fill</div>
+                {{ form.close() }}
+                <div class="clear"></div>
+            </div>
+
+            <div id="contact-form-dialog" hidden>
+                <div class="on-error" style="display:none">
+                    <p>{{ environment.translate('Some errors occurred while sending mail please send your message trough this contact form:') }}</p>
+                    <p><a href="https://supsystic.com/plugins/photo-gallery/#contact" target="_blank">https://supsystic.com/plugins/photo-gallery/#contact</a></p>
+                </div>
+                <div class="message"></div>
+            </div>
+            <div data-section="video" class="video overview-section">
+                <h3><i class="fa fa-play"></i> Video tutorial</h3>
+                <iframe type="text/html"
+                        width="100%"
+                        height="350px"
+                        src="http://www.youtube.com/embed/JyJYA3rPPOg"
+                        frameborder="0">
+                </iframe>
+                <div class="clear"></div>
+            </div>
+            <div data-section="promo_video" class="video overview-section">
+                <h3><i class="fa fa-star"></i> Our promo video</h3>
+                <iframe type="text/html"
+                        width="100%"
+                        height="350px"
+                        src="http://www.youtube.com/embed/dKd_9g6JzfU"
+                        frameborder="0">
+                </iframe>
+                <div class="clear"></div>
+            </div>
+            <div data-section="settings" class="server-settings overview-section">
+                <h3><i class="fa fa-cog"></i> Server settings</h3>
+                <ul class="settings-list">
+                    {% for title, element in serverSettings %}
+                        <li class="settings-line" style="float: none;">
+                            <div class="settings-title">{{ title|trim }}:</div>
+                            <span>{{ element.value|trim }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="clear"></div>
+            </div>
+            </div>
+        </div>
+        <div class="half-page half-page-right">
+            <a href="https://supsystic.com/pricing/?utm_source=plugin&utm_campaign=slider" target="_blank"><img class="overview-supsystic-img" src="{{ SS_PLUGIN_URL }}/src/SupsysticSlider/Overview/assets/img/overview-01.png"></a>
+            <a href="https://supsystic.com/plugins/plugins-bundle/?utm_source=plugin&utm_campaign=slider" target="_blank"><img class="overview-supsystic-img" src="{{ SS_PLUGIN_URL }}/src/SupsysticSlider/Overview/assets/img/overview-02.png"></a>
+            <a href="https://supsystic.com/all-plugins/?utm_source=plugin&utm_campaign=slider" target="_blank"><img style="margin-top:20px;"  class="overview-supsystic-img" src="{{ SS_PLUGIN_URL }}/src/SupsysticSlider/Overview/assets/img/overview-03.png"></a>
+            <div class="clear"></div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
